@@ -108,7 +108,7 @@ function Tables() {
                   <thead><tr>{tb.headers.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
                   <tbody>
                     {tb.rows.map((r, i) => (
-                      <tr key={i}>{r.map((c, j) => <td key={j} dangerouslySetInnerHTML={{ __html: j === 0 ? `<b>${c}</b>` : c }} />)}</tr>
+                      <tr key={i}>{r.map((c, j) => <td key={j} data-label={tb.headers[j]} dangerouslySetInnerHTML={{ __html: j === 0 ? `<b>${c}</b>` : c }} />)}</tr>
                     ))}
                   </tbody>
                 </table>

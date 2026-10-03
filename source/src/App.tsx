@@ -20,6 +20,14 @@ const LINKS: { path: string; label: string }[] = [
   { path: '/map', label: 'מפת בחינות המועצה' },
 ];
 
+const TABS: { path: string; label: string; icon: string; alt?: string[] }[] = [
+  { path: '/home', label: 'בית', icon: '🏠' },
+  { path: '/quiz', label: 'בחנים', icon: '📝', alt: ['/run'] },
+  { path: '/exam', label: 'מבחן', icon: '🎓' },
+  { path: '/cases', label: 'קייסים', icon: '🗂️', alt: ['/case', '/fullexam'] },
+  { path: '/concepts', label: 'מושגים', icon: '🔑', alt: ['/map'] },
+];
+
 function Nav({ hash }: { hash: string }) {
   const [open, setOpen] = useState(false);
   const root = '/' + (hash.split('/')[1] ?? '');
@@ -90,9 +98,17 @@ export default function App() {
       <main className="view" key={hash}>
         {view}
       </main>
+      <nav className="tabbar" aria-label="ניווט מהיר">
+        {TABS.map((t) => (
+          <a key={t.path} href={'#' + t.path} className={'/' + (hash.split('/')[1] ?? '') === t.path || t.alt?.includes('/' + (hash.split('/')[1] ?? '')) ? 'on' : ''}>
+            <span className="ic" aria-hidden="true">{t.icon}</span>
+            {t.label}
+          </a>
+        ))}
+      </nav>
       <footer className="foot">
         <span className="mark">ביקורת מערכות מידע ממוחשבות בשילוב AI</span>
-        תרגול לבחינה · מבוסס על חוברת הקורס, תקני הביקורת, מבחני הקורס ובחינות המועצה 2015–2025
+        תרגול לבחינה · מבוסס על חוברת הקורס, תקני הביקורת, מבחני הקורס ובחינות המועצה 2015–2025<br /><a href="#/map">מפת בחינות המועצה</a> · <a href={GUIDE_URL} target="_blank" rel="noopener">📘 למדריך ↗</a>
       </footer>
     </>
   );

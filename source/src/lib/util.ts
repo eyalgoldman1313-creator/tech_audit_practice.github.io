@@ -1,9 +1,14 @@
 import { marked } from 'marked';
+import { enhanceTables } from './mdtable';
 
 marked.setOptions({ gfm: true, breaks: true });
 
 export function md(text: string): string {
-  return marked.parse(text ?? '', { async: false }) as string;
+  const html = marked.parse(text ?? '', { async: false }) as string;
+  if (!html.includes('<table') || typeof DOMParser === 'undefined') return html;
+  const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html');
+  enhanceTables(doc.body);
+  return doc.body.firstElementChild!.innerHTML;
 }
 
 export function shuffle<T>(arr: T[]): T[] {

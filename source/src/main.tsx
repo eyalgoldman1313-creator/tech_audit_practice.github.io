@@ -13,6 +13,7 @@ import '@fontsource/heebo/latin-800.css';
 import '@fontsource/assistant/latin-400.css';
 import '@fontsource/assistant/latin-700.css';
 import './styles.css';
+import './mdtable.css';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(

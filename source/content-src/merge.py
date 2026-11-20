@@ -4,7 +4,9 @@ A='C:/itaudit/analysis/'
 TOPICS={'infra','systems','process','controls','security','bcp','sdlc','models','caat','outsourcing','laws'}
 # ---- cases
 cases=[]
-for f in ['cases_samples.json','cases_council_spring.json','cases_council_winter.json']:
+import os
+for f in ['cases_samples.json','cases_ariel.json','cases_council_spring.json','cases_council_winter.json']:
+    if not os.path.exists(A+f): continue
     for c in json.load(open(A+f,encoding='utf-8')):
         m=re.match(r'council-(\d{4})-(summer|winter|special)',c['id'])
         if m: c['year']=int(m.group(1)); c['session']=m.group(2)
@@ -16,6 +18,7 @@ for f in ['cases_samples.json','cases_council_spring.json','cases_council_winter
 ids=[c['id'] for c in cases]; assert len(ids)==len(set(ids)), 'dup ids'
 # ---- exams
 exams=json.load(open(A+'sample_exams_meta.json',encoding='utf-8'))
+if os.path.exists(A+'ariel_exams_meta.json'): exams+=json.load(open(A+'ariel_exams_meta.json',encoding='utf-8'))
 for e in exams:
     for cid in e['caseIds']: assert cid in ids, cid
 # ---- questions
